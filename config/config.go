@@ -1,10 +1,10 @@
 package config
 
 type Configurations struct {
-	Wled WledConfigurations
+	Rest RestConfigurations
 }
 
-type WledConfigurations struct {
+type RestConfigurations struct {
 	Url            string
 	LevelZeroBody  string
 	LevelOneBody   string

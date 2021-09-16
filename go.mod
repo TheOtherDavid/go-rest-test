@@ -1,4 +1,4 @@
-module github.com/TheOtherDavid/wled-tests
+module github.com/TheOtherDavid/go-rest-test
 
 go 1.16
 

@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	c "github.com/TheOtherDavid/wled-tests/config"
+	c "github.com/TheOtherDavid/go-rest-test/config"
 	"github.com/spf13/viper"
 )
 
@@ -32,77 +32,78 @@ func main() {
 
 	fmt.Println("Reading variables...")
 
-	fmt.Println("WLED URL: ", configuration.Wled.Url)
-	baseUrl := configuration.Wled.Url
+	fmt.Println("Target URL: ", configuration.Rest.Url)
+	baseUrl := configuration.Rest.Url
 
 	sleepTime := 3000 * time.Millisecond
 
-	fmt.Println("Sending Level 0")
-	sendWledCommand(baseUrl, configuration.Wled.LevelZeroBody)
+	fmt.Println("Sending Call 0")
+	sendRenameCommand(baseUrl, "0")
 
 	time.Sleep(sleepTime)
 
-	fmt.Println("Sending Level 1")
-	sendWledCommand(baseUrl, configuration.Wled.LevelOneBody)
+	fmt.Println("Sending Call 1")
+	sendRenameCommand(baseUrl, "1")
 
 	time.Sleep(sleepTime)
 
-	fmt.Println("Sending Level 2")
-	sendWledCommand(baseUrl, configuration.Wled.LevelTwoBody)
+	fmt.Println("Sending Call 2")
+	sendRenameCommand(baseUrl, "2")
 
 	time.Sleep(sleepTime)
 
-	fmt.Println("Sending Level 3")
-	sendWledCommand(baseUrl, configuration.Wled.LevelThreeBody)
+	fmt.Println("Sending Call 3")
+	sendRenameCommand(baseUrl, "3")
 
 	time.Sleep(sleepTime)
 
-	fmt.Println("Sending Level 4")
-	sendWledCommand(baseUrl, configuration.Wled.LevelFourBody)
+	fmt.Println("Sending Call 4")
+	sendRenameCommand(baseUrl, "4")
 
 	time.Sleep(sleepTime)
 
-	fmt.Println("Sending Level 5")
-	sendWledCommand(baseUrl, configuration.Wled.LevelFiveBody)
+	fmt.Println("Sending Call 5")
+	sendRenameCommand(baseUrl, "5")
 
 	time.Sleep(sleepTime)
 
-	fmt.Println("Sending Level 4")
-	sendWledCommand(baseUrl, configuration.Wled.LevelFourBody)
+	fmt.Println("Sending Call 6")
+	sendRenameCommand(baseUrl, "6")
 
 	time.Sleep(sleepTime)
 
-	fmt.Println("Sending Level 3")
-	sendWledCommand(baseUrl, configuration.Wled.LevelThreeBody)
+	fmt.Println("Sending Call 7")
+	sendRenameCommand(baseUrl, "7")
 
 	time.Sleep(sleepTime)
 
-	fmt.Println("Sending Level 2")
-	sendWledCommand(baseUrl, configuration.Wled.LevelTwoBody)
+	fmt.Println("Sending Call 8")
+	sendRenameCommand(baseUrl, "8")
 
 	time.Sleep(sleepTime)
 
-	fmt.Println("Sending Level 1")
-	sendWledCommand(baseUrl, configuration.Wled.LevelOneBody)
+	fmt.Println("Sending Call 9")
+	sendRenameCommand(baseUrl, "9")
 
 	time.Sleep(sleepTime)
 
-	fmt.Println("Sending Level 0")
-	sendWledCommand(baseUrl, configuration.Wled.LevelZeroBody)
+	fmt.Println("Sending Call 10")
+	sendRenameCommand(baseUrl, "10")
 
 	fmt.Println("Complete")
 }
 
-func sendWledCommand(baseUrl string, body string) error {
+func sendRenameCommand(baseUrl string, body string) error {
 	jsonBody := []byte(body)
 
-	fullUrl := "http://" + baseUrl + "/json/state"
+	fullUrl := baseUrl
 
 	req, _ := http.NewRequest("POST", fullUrl, bytes.NewBuffer(jsonBody))
 	req.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
-	client.Timeout = time.Second * 5
+	//Comment out the timeout to try to recreate timeout bugs.
+	//client.Timeout = time.Second * 5
 
 	resp, err := client.Do(req)
 	if resp != nil {
